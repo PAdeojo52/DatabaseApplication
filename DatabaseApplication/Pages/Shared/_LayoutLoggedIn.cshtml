@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/loggedin.css" asp-append-version="true" />
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>.io</h2>
+            </div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/Registered/LoggedInIndex">
+                        <i class="bi bi-house"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Products">
+                        <i class="bi bi-box"></i> Products
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Categories">
+                        <i class="bi bi-tag"></i> Categories
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Stores">
+                        <i class="bi bi-shop"></i> Stores
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Finances">
+                        <i class="bi bi-currency-dollar"></i> Finances
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Settings">
+                        <i class="bi bi-gear"></i> Settings
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="/AddProduct" class="btn btn-primary btn-block">Add Product</a>
+                <a href="/Logout" class="btn btn-danger btn-block mt-2">Log Out</a>
+            </div>
+        </nav>
+
+    <div lass="main-content">
+            <header class="main-header">
+                <input type="search" placeholder="Search" class="search-input" />
+            </header>
+        <main role="main" class="pb-3">
+        @RenderBody()
+        </main>
+    </div>
+</div>
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+﻿@page
+html
+@{
+    Layout = null; // if you want this as a standalone page without the default layout
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cover Page</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        /* Cover page styling */
+        html, body {
+            height: 100%;
+            background-color: #333;
+            color: #ddd;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .cover-container {
+            max-width: 42em;
+            padding: 0 1rem;
+        }
+
+        .cover-heading {
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+
+        .nav-link {
+            color: #ddd;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: #555;
+            border-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Cover</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-page="/Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                    
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Signup">Sign up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-page="/Login">Login</a>
+                    </li>
+
+                </ul>
+
+                <ul class="navbar-nav">
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Logout">Logout</a>
+                        </li>
+                    }    
+                   
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+        <main role="main" class="inner cover">
+            <h1 class="cover-heading">Database Name to be here</h1>
+            <p class="lead">lux norem</p>
+            <p class="lead">
+                <a href="#" class="btn btn-lg btn-primary">Learn more</a>
+            </p>
+        </main>
+        <footer class="mt-auto text-white-50">
+            
+        </footer>
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

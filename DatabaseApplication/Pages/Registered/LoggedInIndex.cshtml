@@ -1,0 +1,44 @@
+﻿@page
+@model DatabaseApplication.Pages.Registered.LoggedInIndexModel
+@{
+    Layout = "~/Pages/Shared/_LayoutLoggedIn.cshtml";
+    ViewData["Title"] = "Welcome, Registered User!";
+}
+
+<div class="dashboard-overview">
+    <h1>Recent Activity</h1>
+    <div class="dashboard-cards">
+        <div class="card">
+            <h2>741</h2>
+            <p>New Items</p>
+        </div>
+        <div class="card">
+            <h2>123</h2>
+            <p>New Orders</p>
+        </div>
+        <div class="card">
+            <h2>12</h2>
+            <p>Refunds</p>
+        </div>
+        <div class="card">
+            <h2>1</h2>
+            <p>Message</p>
+        </div>
+        <div class="card">
+            <h2>4</h2>
+            <p>Groups</p>
+        </div>
+    </div>
+
+    <div class="dashboard-sections">
+        <div class="sales-chart">
+            <h2>Sales</h2>
+            <!-- Add your chart or graph here -->
+            <p>Placeholder for chart</p>
+        </div>
+        <div class="top-categories">
+            <h2>Top Item Categories</h2>
+            <p>Placeholder for categories</p>
+        </div>
+    </div>
+</div>
