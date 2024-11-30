@@ -118,3 +118,90 @@
     flex: 1;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+.add-product-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+    .add-product-container h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+    .form-group label {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+.form-control {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.save-product-button {
+    margin-top: 20px;
+    background-color: #6a0dad;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .save-product-button:hover {
+        background-color: #580b9e;
+    }
+
+.product-list-container {
+    padding: 20px;
+}
+
+    .product-list-container h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+.table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+    .table img {
+        border-radius: 5px;
+    }
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.bg-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.bg-warning {
+    background-color: #ffc107;
+    color: black;
+}
+
+.bg-danger {
+    background-color: #dc3545;
+    color: white;
+}
