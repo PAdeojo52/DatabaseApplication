@@ -23,20 +23,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Products">
+                    <a class="nav-link" asp-page="/Registered/Products">
                         <i class="bi bi-box"></i> Products
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/Categories">
-                        <i class="bi bi-tag"></i> Categories
-                    </a>
-                </li>
-                <li class="nav-item">
+              <!---  <li class="nav-item">
                     <a class="nav-link" href="/Stores">
-                        <i class="bi bi-shop"></i> Stores
+                          <i class="bi bi-shop"></i> Stores 
                     </a>
-                </li>
+                  </li> ---->
                 <li class="nav-item">
                     <a class="nav-link" href="/Finances">
                         <i class="bi bi-currency-dollar"></i> Finances
@@ -49,7 +44,7 @@
                 </li>
             </ul>
             <div class="sidebar-footer">
-                <a href="/AddProduct" class="btn btn-primary btn-block">Add Product</a>
+                <a asp-page="/Registered/AddItem" class="btn btn-primary btn-block">Add Product</a>
                 <a href="/Logout" class="btn btn-danger btn-block mt-2">Log Out</a>
             </div>
         </nav>
