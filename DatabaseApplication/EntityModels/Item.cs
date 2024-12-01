@@ -11,5 +11,7 @@
         public double Price { get; set; } // Maps to "price"
         public string? Photo { get; set; } // Maps to "photo"
         public long Creator { get; set; } // Maps to "creater"
+        public long? ItemLocation { get; set; } // Maps to "item_location"
+        public long StockOut { get; set; } // Maps to "stockout"
     }
 }

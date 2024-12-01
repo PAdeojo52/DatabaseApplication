@@ -1,4 +1,5 @@
 using DatabaseApplication.Data;
+using DatabaseApplication.Interfaces;
 using DatabaseApplication.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddSingleton<UserServiceSession>();
+builder.Services.AddScoped<IInventoryService, InventoryService>();
 var app = builder.Build();
 
 
