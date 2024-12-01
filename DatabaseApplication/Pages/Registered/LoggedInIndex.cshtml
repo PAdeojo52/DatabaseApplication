@@ -5,7 +5,7 @@
     ViewData["Title"] = "Welcome, Registered User!";
 }
 
-<div class="dashboard-overview">
+<<div class="dashboard-overview">
     <h1>Recent Activity</h1>
     <div class="dashboard-cards">
         <div class="card">
@@ -32,12 +32,53 @@
 
     <div class="dashboard-sections">
         <div class="sales-chart">
-            <h2>Sales</h2>
-            <!-- Add your chart or graph here -->
-            <p>Placeholder for chart</p>
+            <h2>Total Stock Breakdown</h2>
+            <canvas id="stockChart" width="400" height="400"></canvas>
         </div>
+        @section Scripts {
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+            <script>
+                // Fetch data from Razor Model
+                const stockData = {
+                    labels: ["Stock In", "Stock Checked Out"],
+                    datasets: [{
+                        label: 'Stock Breakdown',
+                        data: [@Model.TotalStockIn, @Model.TotalStockCheckedOut],
+                        backgroundColor: ['#4CAF50', '#FF5722'], // Colors for the chart
+                        borderColor: ['#3E8E41', '#E64A19'], // Border colors
+                        borderWidth: 1
+                    }]
+                };
+
+                // Config for the chart
+                const config = {
+                    type: 'pie',
+                    data: stockData,
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (tooltipItem) {
+                                        return tooltipItem.label + ': ' + tooltipItem.raw;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+
+                // Render the chart
+                const ctx = document.getElementById('stockChart').getContext('2d');
+                new Chart(ctx, config);
+            </script>
+        }
         <div class="top-categories">
-            <h2>Top Item Categories</h2>
+            <h2>Items by Catagory</h2>
             <p>Placeholder for categories</p>
         </div>
     </div>
