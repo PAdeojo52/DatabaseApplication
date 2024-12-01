@@ -76,10 +76,57 @@
                 const ctx = document.getElementById('stockChart').getContext('2d');
                 new Chart(ctx, config);
             </script>
+
+            <script>
+                // Dummy data for the bar chart
+                const categoryData = {
+                    labels: ["Electronics", "Clothing", "Books", "Toys", "Furniture"], // Category names
+                    datasets: [{
+                        label: 'Number of Items',
+                        data: [50, 75, 20, 40, 30], // Example dummy data
+                        backgroundColor: [
+                            '#4CAF50',
+                            '#FF5722',
+                            '#FFC107',
+                            '#03A9F4',
+                            '#9C27B0'
+                        ],
+                        borderColor: [
+                            '#388E3C',
+                            '#D32F2F',
+                            '#FFA000',
+                            '#0288D1',
+                            '#7B1FA2'
+                        ],
+                        borderWidth: 1
+                    }]
+                };
+
+                // Configuration for the bar chart
+                const categoryChartConfig = {
+                    type: 'bar',
+                    data: categoryData,
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                };
+
+                // Render the bar chart in the 'categoryChart' canvas
+                const categoryChartCtx = document.getElementById('categoryChart').getContext('2d');
+                new Chart(categoryChartCtx, categoryChartConfig);
+            </script>
         }
         <div class="top-categories">
             <h2>Items by Catagory</h2>
-            <p>Placeholder for categories</p>
+            <canvas id="categoryChart" width="400" height="200"></canvas>
+
+
+
         </div>
     </div>
 </div>
