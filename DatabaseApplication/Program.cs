@@ -9,10 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), npgsqlOptions => npgsqlOptions.CommandTimeout(30)).EnableSensitiveDataLogging().LogTo(Console.WriteLine));   // Log to the console;
 
 builder.Services.AddSingleton<UserServiceSession>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<QueryService>();
+
 var app = builder.Build();
 
 

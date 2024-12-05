@@ -36,33 +36,46 @@ namespace DatabaseApplication.Pages
                 return Page();
             }
 
-
-            // Step 1: Retrieve user by email
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.email == Email);
-            if (user == null)
+            try
             {
-                ErrorMessage = "Invalid email or password.";
+                // Open the database connection explicitly
+                await _context.Database.OpenConnectionAsync();
+
+                // Step 1: Retrieve user by email
+                var user = await _context.Users.SingleOrDefaultAsync(u => u.email == Email);
+                if (user == null)
+                {
+                    ErrorMessage = "Invalid email or password.";
+                    return Page();
+                }
+
+                // Verify the password
+                if (!BCrypt.Net.BCrypt.Verify(Password, user.hashed_password))
+                {
+                    // Authentication failed
+                    ErrorMessage = "Invalid email or password.";
+                    return Page();
+                }
+
+                // Set up the user session
+                _userServiceSession.UserId = user.id;
+                _userServiceSession.IsLoggedIn = true;
+
+                // Authentication successful
+                return RedirectToPage(PageRoutes.LOGGEDINTOINDEX);
+            }
+            catch (Exception ex)
+            {
+                // Log the error for debugging purposes
+                Console.WriteLine($"Error in OnPostAsync: {ex.Message}");
+                ErrorMessage = "An error occurred during authentication. Please try again later.";
                 return Page();
             }
-
-            // Fetch the user from the database
-            //var user = await _context.Users.SingleOrDefaultAsync(u => u.email == Email);
-
-            String hashedPassword = BCrypt.Net.BCrypt.HashPassword(Password);
-
-            if (user == null || !BCrypt.Net.BCrypt.Verify(Password, user.hashed_password))
+            finally
             {
-                // Authentication failed
-                ErrorMessage = "Invalid email or password.";
-                return Page();
+                // Ensure the database connection is closed
+                await _context.Database.CloseConnectionAsync();
             }
-
-            _userServiceSession.UserId = user.id;
-            _userServiceSession.IsLoggedIn = true;
-
-            // Authentication successful
-            // TODO: Set up user session or redirect to another page
-            return RedirectToPage(PageRoutes.LOGGEDINTOINDEX);
         }
     }
  }

@@ -1,4 +1,6 @@
-﻿namespace DatabaseApplication.EntityModels
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DatabaseApplication.EntityModels
 {
     public class Item
     {
@@ -7,7 +9,11 @@
         public string Name { get; set; } // Maps to "name"
         public string Description { get; set; } // Maps to "description"
         public string Category { get; set; } // Maps to "category"
+
+
+        [Column("stock")]
         public long Stock { get; set; } // Maps to "stock"
+
         public double Price { get; set; } // Maps to "price"
         public string? Photo { get; set; } // Maps to "photo"
         public long Creator { get; set; } // Maps to "creater"
