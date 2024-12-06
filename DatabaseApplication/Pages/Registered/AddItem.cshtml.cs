@@ -4,20 +4,20 @@ using DatabaseApplication.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace DatabaseApplication.Pages.Registered
 {
     public class AddItemModel : PageModel
     {
-
-        private readonly ApplicationDbContext _context;
-        private readonly UserServiceSession _userServiceSession;
-
-
-        public AddItemModel(ApplicationDbContext context, UserServiceSession userServiceSession)
+        private readonly Supabase.Client _supabaseClient;
+        private readonly ItemService _itemService;
+        private readonly UserServiceSession _userService;
+        public AddItemModel(Supabase.Client supabaseClient, ItemService itemService, UserServiceSession userServiceSession)
         {
-            _context = context;
-            _userServiceSession = userServiceSession;
+            _supabaseClient = supabaseClient;
+            _itemService = itemService;
+            _userService = userServiceSession;  
         }
 
         // Form-bound properties
@@ -31,12 +31,7 @@ namespace DatabaseApplication.Pages.Registered
 
         [BindProperty]
         [Required(ErrorMessage = "Category is required.")]
-        public string Category { get; set; }
-
-        [BindProperty]
-        [Required(ErrorMessage = "Stock is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Stock must be greater than 0.")]
-        public long Stock { get; set; }
+        public int CategoryId { get; set; }
 
         [BindProperty]
         [Required(ErrorMessage = "Price is required.")]
@@ -44,29 +39,47 @@ namespace DatabaseApplication.Pages.Registered
         public double Price { get; set; }
 
         [BindProperty]
-        public string? Photo { get; set; } // Nullable property since Photo is optional
+        [Required(ErrorMessage = "Make is required.")]
+        public string Make { get; set; }
+
+        [BindProperty]
+        [Required(ErrorMessage = "Model is required.")]
+        public string Model { get; set; }
+
+        public List<Category> Categories { get; set; }
+
+        public async Task OnGetAsync()
+        {
+            // Fetch the categories from Supabase
+            Categories = await _itemService.GetCategoriesAsync();
+        }
 
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
+                Categories = await _itemService.GetCategoriesAsync();
                 return Page();
             }
+
+            // Capitalize Make and Model
+            Make = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Make.ToLower());
+            Model = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Model.ToLower());
 
             var newItem = new Item
             {
                 Name = this.Name,
                 Description = this.Description,
-                Category = this.Category,
-                Stock = this.Stock,
+                Category = this.CategoryId,
                 Price = this.Price,
-                Photo = this.Photo, // Optional field
+                Make = this.Make,
+                Model = this.Model,
+                CheckedIn = true, // Default value for CheckedIn
                 CreatedAt = DateTime.UtcNow,
-                Creator = 7 // Replace with the logged-in user's ID
+                Creator = _userService.UserId, // Replace with the logged-in user's ID
             };
 
-            _context.Items.Add(newItem);
-            await _context.SaveChangesAsync();
+            await _itemService.AddItemAsync(newItem);
 
             return RedirectToPage("/Registered/LoggedInIndex");
         }

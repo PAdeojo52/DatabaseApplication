@@ -1,23 +1,19 @@
-using DatabaseApplication.Data;
-using DatabaseApplication.Pages.PageRouting;
 using DatabaseApplication.Services;
+using DatabaseApplication.Pages.PageRouting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Crypto.Generators;
+using static DatabaseApplication.NewFolder.NewUser;
 
 namespace DatabaseApplication.Pages
 {
     public class LoginModel : PageModel
     {
-
-        private readonly ApplicationDbContext _context;
+        private readonly Supabase.Client _supabaseClient;
         private readonly UserServiceSession _userServiceSession;
 
-
-        public LoginModel(ApplicationDbContext context, UserServiceSession userSessionService)
+        public LoginModel(Supabase.Client supabaseClient, UserServiceSession userSessionService)
         {
-            _context = context;
+            _supabaseClient = supabaseClient;
             _userServiceSession = userSessionService;
         }
 
@@ -36,33 +32,44 @@ namespace DatabaseApplication.Pages
                 return Page();
             }
 
-
-            // Step 1: Retrieve user by email
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.email == Email);
-            if (user == null)
+            try
             {
-                ErrorMessage = "Invalid email or password.";
+                // Step 1: Retrieve user by email from Supabase
+                var userResponse = await _supabaseClient.From<User>()
+                    .Filter("email", Supabase.Postgrest.Constants.Operator.Equals, Email)
+                    .Single();
+
+                var user = userResponse.Email.FirstOrDefault(); // Retrieve the single User object
+
+                if (user == null)
+                {
+                    // User not found
+                    ErrorMessage = "Invalid email or password.";
+                    return Page();
+                }
+
+                // Step 2: Verify password
+                if (!BCrypt.Net.BCrypt.Verify(Password, userResponse.HashedPassword))
+                {
+                    // Password does not match
+                    ErrorMessage = "Invalid email or password.";
+                    return Page();
+                }
+
+                // Step 3: Set user session
+                _userServiceSession.UserId = userResponse.Id; // Store the user's ID in the session
+                _userServiceSession.IsLoggedIn = true;
+
+                // Step 4: Redirect to the logged-in index page
+                return RedirectToPage(PageRoutes.LOGGEDINTOINDEX);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions and provide an error message
+                Console.WriteLine($"Error during login: {ex.Message}");
+                ErrorMessage = "An error occurred during login. Please try again.";
                 return Page();
             }
-
-            // Fetch the user from the database
-            //var user = await _context.Users.SingleOrDefaultAsync(u => u.email == Email);
-
-            String hashedPassword = BCrypt.Net.BCrypt.HashPassword(Password);
-
-            if (user == null || !BCrypt.Net.BCrypt.Verify(Password, user.hashed_password))
-            {
-                // Authentication failed
-                ErrorMessage = "Invalid email or password.";
-                return Page();
-            }
-
-            _userServiceSession.UserId = user.id;
-            _userServiceSession.IsLoggedIn = true;
-
-            // Authentication successful
-            // TODO: Set up user session or redirect to another page
-            return RedirectToPage(PageRoutes.LOGGEDINTOINDEX);
         }
     }
- }
+}

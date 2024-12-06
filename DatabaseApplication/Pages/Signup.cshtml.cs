@@ -1,81 +1,88 @@
-using DatabaseApplication.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Crypto.Generators;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using static DatabaseApplication.NewFolder.NewUser;
 
 namespace DatabaseApplication.Pages
 {
     public class SignupModel : PageModel
     {
+        private readonly Supabase.Client _supabaseClient;
 
-        private readonly ApplicationDbContext _context;
-
-        public SignupModel(ApplicationDbContext context)
+        public SignupModel(Supabase.Client supabaseClient)
         {
-            _context = context;
+            _supabaseClient = supabaseClient;
         }
 
-
         [BindProperty]
-        [Column("first_name")]
         [Required]
-        public string first_name { get; set; }
-
-        [BindProperty]
-        [Column("last_name")]
-        [Required]
-        public string last_name { get; set; }
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
 
         [BindProperty]
         [Required]
-        [Column("email")]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [BindProperty]
+        [Required]
         [EmailAddress]
-        public string email { get; set; }
+        [Display(Name = "Email Address")]
+        public string Email { get; set; }
 
         [BindProperty]
         [Required]
-        public string password { get; set; }
-
-        public string hashed_password { get; set; }
+        [Display(Name = "Password")]
+        public string Password { get; set; }
 
         public string Message { get; set; }
 
         public void OnGet()
         {
         }
-        public IActionResult OnPost()
+
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+            // Hash the password before saving
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(Password);
 
             var user = new User
             {
-                first_name = first_name,
-                last_name = last_name,
-                email = email,
-                password = password, // Save the hashed password
-                hashed_password = hashedPassword
+                FirstName = FirstName,
+                LastName = LastName,
+                Email = Email,
+                Password = Password, // Save plain password (not recommended for production)
+                HashedPassword = hashedPassword // Save hashed password
             };
 
-            // Add the user to the database
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            try
+            {
+                // Save the user to the Supabase "Users" table
+                var response = await _supabaseClient.From<User>().Insert(user);
 
-            // Handle the registration logic here (e.g., saving to a database).
-            // For demonstration, we'll just show a success message.
-            Message = "Registration successful!";
-
-            // Optionally, redirect to another page or show a confirmation.
-            return RedirectToPage("/Index");
-
+                if (response.Models.Count > 0)
+                {
+                    Message = "Registration successful!";
+                    return RedirectToPage("/Index");
+                }
+                else
+                {
+                    Message = "Registration failed. Please try again.";
+                    return Page();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error and return failure message
+                Console.WriteLine($"Error during registration: {ex.Message}");
+                Message = "An error occurred. Please try again.";
+                return Page();
+            }
         }
     }
 }

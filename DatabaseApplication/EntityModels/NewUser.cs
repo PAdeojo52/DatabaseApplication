@@ -1,34 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿
+using Supabase.Postgrest.Attributes;
+using Supabase.Postgrest.Models;
+using Supabase;
+
 
 namespace DatabaseApplication.NewFolder
 {
-    public class NewUser
+
+    public class NewUser : BaseModel
     {
-        [Table("User")]
-        public class User
+        [Table("User")] // Map the class to the "User" table
+        public class User : BaseModel
         {
-            [Key]
-            public int id { get; set; }
+            [PrimaryKey("id")] // Supabase Primary Key
+            [Column("id")]
+            public int Id { get; set; }
 
-            [Required]
-            public string first_name { get; set; }
+            [Column("first_name")]
+            public string FirstName { get; set; }
 
-            [Required]
-            public string last_name { get; set; }
+            [Column("last_name")]
+            public string LastName { get; set; }
 
-            [Required]
-            [EmailAddress]
-            public string email { get; set; }
+            [Column("email")]
+            public string Email { get; set; }
 
-            [Required]
             [Column("password")] // Map to the "password" column
-            public string password { get; set; }
+            public string Password { get; set; }
 
-            [BindNever]
-            public string hashed_password { get; set; }
+            [Column("hashed_password")] // Map to the "hashed_password" column
+            public string HashedPassword { get; set; }
+           
         }
-
     }
 }

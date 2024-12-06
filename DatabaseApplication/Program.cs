@@ -1,16 +1,29 @@
 using DatabaseApplication.Data;
+using DatabaseApplication.Interfaces;
 using DatabaseApplication.Services;
 using Microsoft.EntityFrameworkCore;
+using Supabase;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<Supabase.Client>(_ => new Supabase.Client(
+    builder.Configuration["Supabase:Url"],
+    builder.Configuration["Supabase:Key"],
+    new SupabaseOptions
+    {
+        AutoRefreshToken = true,
+        AutoConnectRealtime = true,
+    }));
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
+        npgsqlOptions => npgsqlOptions.CommandTimeout(30)));
 
 builder.Services.AddSingleton<UserServiceSession>();
+builder.Services.AddScoped<ItemService>();
+builder.Services.AddScoped<InventoryService, InventoryService>();
 var app = builder.Build();
 
 
