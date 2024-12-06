@@ -24,24 +24,25 @@ namespace DatabaseApplication.Data
             // Example: Configuring additional properties or constraints if needed
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasIndex(u => u.email).IsUnique(); // Example: make Email unique
-                entity.Property(u => u.first_name).IsRequired();
-                entity.Property(u => u.last_name).IsRequired();
+                entity.HasIndex(u => u.Email).IsUnique(); // Example: make Email unique
+                entity.Property(u => u.FirstName).IsRequired();
+                entity.Property(u => u.LastName).IsRequired();
             });
 
             modelBuilder.Entity<Item>(entity =>
             {
-                entity.ToTable("Items"); // Table name
-                entity.HasKey(e => e.id); // Primary key
+                entity.ToTable("Items"); // Map to "Items" table
+                entity.HasKey(e => e.Id); // Primary key
                 entity.Property(e => e.CreatedAt).HasColumnName("created_at");
-                entity.Property(e => e.Name).HasColumnName("name");
+                entity.Property(e => e.Name).HasColumnName("name").IsRequired(); // Required field
                 entity.Property(e => e.Description).HasColumnName("description");
                 entity.Property(e => e.Category).HasColumnName("category");
-                entity.Property(e => e.Stock).HasColumnName("stock");
+                 // Required field
                 entity.Property(e => e.Price).HasColumnName("price");
-                entity.Property(e => e.Photo).HasColumnName("photo");
+                entity.Property(e => e.Photo).HasColumnName("photo").IsRequired(false); // Nullable
                 entity.Property(e => e.Creator).HasColumnName("creater");
             });
+        
 
         }
 

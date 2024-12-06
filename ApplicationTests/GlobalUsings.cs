@@ -1,0 +1,11 @@
+global using Xunit;
+global using Supabase;
+global using DatabaseApplication.Data;
+global using DatabaseApplication.EntityModels;
+global using DatabaseApplication.Services;
+global using Microsoft.EntityFrameworkCore;
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Text;
+global using System.Threading.Tasks;

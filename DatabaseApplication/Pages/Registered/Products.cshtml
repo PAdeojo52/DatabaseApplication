@@ -39,11 +39,11 @@
 
                     <!-- Status Column -->
                     <td>
-                        @if (item.Stock > 10)
+                        @if (item.Id > 10)
                         {
                             <span class="badge bg-success">Active</span>
                         }
-                        else if (item.Stock > 0)
+                        else if (item.Id > 0)
                         {
                             <span class="badge bg-warning">Low in Stock</span>
                         }
@@ -54,7 +54,7 @@
                     </td>
 
                     <!-- Stock Info Column -->
-                    <td>@item.Stock in stock</td>
+                    <td>@item.Price in stock</td>
 
                     <!-- Category Column -->
                     <td>@item.Category</td>
