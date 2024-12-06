@@ -18,11 +18,6 @@ namespace ApplicationTests.QueryTest
 
 
 
-       
-
-
-
-
 
 
     }

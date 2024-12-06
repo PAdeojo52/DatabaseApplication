@@ -40,7 +40,7 @@ namespace DatabaseApplication.Pages.Registered
 
 
 
-
+        public Dictionary<string, long> CategoryStockData { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
             if (!_userServiceSession.IsLoggedIn)
@@ -54,7 +54,11 @@ namespace DatabaseApplication.Pages.Registered
 
 
             TotalStockIn = await _inventoryService.GetTotalStockInAsync();  
-            TotalStockCheckedOut = await _inventoryService.GetTotalStockCheckedOutAsync();             
+            TotalStockCheckedOut = await _inventoryService.GetTotalStockCheckedOutAsync();
+
+            CategoryStockData = await _inventoryService.GetStockByCategoryAsync();
+
+            TotalInventoryCost = await _inventoryService.GetTotalInventoryCostAsync();
             // Prepare chart data
             StockData = new Dictionary<string, long>
             {
