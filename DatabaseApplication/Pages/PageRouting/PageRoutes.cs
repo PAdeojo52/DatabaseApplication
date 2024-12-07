@@ -16,5 +16,6 @@
 
         //For registed and logged in Users
         public const string LOGGEDINTOINDEX = "/Registered/LoggedInIndex";
+        public const string LOGGEDFINANCE =  "/Registered/Finance";
     }
 }
