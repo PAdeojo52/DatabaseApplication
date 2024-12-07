@@ -1,0 +1,257 @@
+﻿@page
+@model DatabaseApplication.Pages.Registered.FinanceModel
+@{
+    Layout = "~/Pages/Shared/_LayoutLoggedIn.cshtml";
+    ViewData["Title"] = "Finacials";
+}
+
+<h1>Finance Dashboard</h1>
+
+<div class="chart-container">
+    <canvas id="barChart"></canvas>
+</div>
+<div class="chart-container">
+    <canvas id="inventoryValueChart"></canvas>
+</div>
+<div class="chart-container">
+    <canvas id="mostValuableItemsChart"></canvas>
+</div>
+<div class="chart-container">
+    <canvas id="userCheckoutValueChart"></canvas>
+</div>
+<div class="chart-container">
+    <canvas id="checkoutsByCategoryChart"></canvas>
+</div>
+<div class="chart-container">
+    <canvas id="topBorrowersChart"></canvas>
+</div>
+
+<div class="chart-container">
+    <canvas id="revenueProjectionChart"></canvas>
+</div>
+<div class="chart-container">
+    <canvas id="overdueItemsChart"></canvas>
+</div>
+<div class="chart-container">
+    <canvas id="lowStockItemsChart"></canvas>
+</div>
+<div class="chart-container">
+    <div id="averageCheckoutValue">Average Checkout Value: $@Model.AverageCheckoutValue.ToString("F2")</div>
+</div>
+<div class="chart-container">
+    <canvas id="financialImpactChart"></canvas>
+</div>
+<div class="chart-container">
+    <canvas id="userCheckoutSplitChart"></canvas>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('barChart').getContext('2d');
+
+        const data = {
+            labels: ['Total Inventory Value', 'Users With Checked-Out Items'],
+            datasets: [{
+                label: 'Metrics',
+                data: [@Model.TotalInventoryValue ?? 0, @Model.UsersWithCheckedOutItems ?? 0],
+                backgroundColor: ['#4CAF50', '#FF5722'],
+                borderColor: ['#388E3C', '#D32F2F'],
+                borderWidth: 1
+            }]
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        enabled: true
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Metrics'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Values'
+                        }
+                    }
+                }
+            }
+        };
+
+        new Chart(document.getElementById('inventoryValueChart'), {
+            type: 'pie',
+            data: {
+                labels: @Json.Serialize(Model.InventoryValueByCategory.Keys),
+                datasets: [{
+                    data: @Json.Serialize(Model.InventoryValueByCategory.Values),
+                    backgroundColor: ['#4CAF50', '#FF5722', '#FFC107', '#03A9F4', '#9C27B0']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' }
+                }
+            }
+        });
+
+        // Most Valuable Items (Horizontal Bar Chart)
+        new Chart(document.getElementById('mostValuableItemsChart'), {
+            type: 'bar',
+            data: {
+                labels: @Json.Serialize(Model.MostValuableItems.Keys),
+                datasets: [{
+                    data: @Json.Serialize(Model.MostValuableItems.Values),
+                    backgroundColor: '#03A9F4'
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                scales: {
+                    x: { beginAtZero: true }
+                }
+            }
+        });
+
+        // User Checkout Value (Bar Chart)
+        new Chart(document.getElementById('userCheckoutValueChart'), {
+            type: 'bar',
+            data: {
+                labels: @Json.Serialize(Model.UserCheckoutValue.Keys),
+                datasets: [{
+                    data: @Json.Serialize(Model.UserCheckoutValue.Values),
+                    backgroundColor: '#4CAF50'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { title: { display: true, text: 'Users' } },
+                    y: { beginAtZero: true, title: { display: true, text: 'Value' } }
+                }
+            }
+        });
+
+        // Checkouts by Category (Bar Chart)
+        new Chart(document.getElementById('checkoutsByCategoryChart'), {
+            type: 'bar',
+            data: {
+                labels: @Json.Serialize(Model.CheckoutsByCategory.Keys),
+                datasets: [{
+                    data: @Json.Serialize(Model.CheckoutsByCategory.Values),
+                    backgroundColor: '#FF5722'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { title: { display: true, text: 'Categories' } },
+                    y: { beginAtZero: true, title: { display: true, text: 'Checkouts' } }
+                }
+            }
+        });
+
+        // Top Borrowers (Horizontal Bar Chart)
+        new Chart(document.getElementById('topBorrowersChart'), {
+            type: 'bar',
+            data: {
+                labels: @Json.Serialize(Model.TopBorrowers.Keys),
+                datasets: [{
+                    data: @Json.Serialize(Model.TopBorrowers.Values),
+                    backgroundColor: '#FFC107'
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                scales: {
+                    x: { beginAtZero: true }
+                }
+            }
+        });
+        new Chart(document.getElementById('revenueProjectionChart'), {
+            type: 'line',
+            data: {
+                labels: @Json.Serialize(Model.RevenueProjection.Keys),
+                datasets: [{
+                    label: 'Projected Revenue',
+                    data: @Json.Serialize(Model.RevenueProjection.Values),
+                    borderColor: '#4CAF50',
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: true } }
+            }
+        });
+
+        // Overdue Items (Bar Chart)
+        new Chart(document.getElementById('overdueItemsChart'), {
+            type: 'bar',
+            data: {
+                labels: @Json.Serialize(Model.OverdueItems.Keys),
+                datasets: [{
+                    label: 'Overdue Items',
+                    data: @Json.Serialize(Model.OverdueItems.Values),
+                    backgroundColor: '#FF5722'
+                }]
+            },
+            options: { responsive: true }
+        });
+
+        // Low Stock Items (Bar Chart)
+        
+
+        // Financial Impact (Radar Chart)
+        new Chart(document.getElementById('financialImpactChart'), {
+            type: 'radar',
+            data: {
+                labels: @Json.Serialize(Model.FinancialImpactByCategory.Keys),
+                datasets: [
+                    {
+                        label: 'Inventory Value',
+                        data: @Json.Serialize(Model.FinancialImpactByCategory.Values.Select(v => v.InventoryValue))
+                        },
+                    {
+                        label: 'Checkouts',
+                        data: @Json.Serialize(Model.FinancialImpactByCategory.Values.Select(v => v.Checkouts))
+                        }
+                ]
+            },
+            options: { responsive: true }
+        });
+
+        // Users With No Checkouts (Pie Chart)
+        new Chart(document.getElementById('userCheckoutSplitChart'), {
+            type: 'pie',
+            data: {
+                labels: ['Users With Checkouts', 'Users Without Checkouts'],
+                datasets: [{
+                    data: [@Model.UserCheckoutSplit.UsersWithCheckouts, @Model.UserCheckoutSplit.UsersWithoutCheckouts],
+                    backgroundColor: ['#4CAF50', '#FF5722']
+                }]
+            },
+            options: { responsive: true }
+        });
+
+        new Chart(ctx, config);
+    });
+</script>
+
+

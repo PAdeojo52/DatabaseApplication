@@ -9,24 +9,20 @@
     <h1>Recent Activity</h1>
     <div class="dashboard-cards">
         <div class="card">
-            <h2>741</h2>
+            <h2>@Model.TotalStockIn</h2>
             <p>Total Items in Stock</p>
         </div>
         <div class="card">
-            <h2>123</h2>
-            <p>New Orders</p>
+            <h2>@Model.TotalStockCheckedOut</h2>
+            <p>Total Items Checked Out</p>
         </div>
         <div class="card">
-            <h2>12</h2>
-            <p>Refunds</p>
+            <h2>@Model.Categories.Count</h2>
+            <p>Number of Catogories</p>
         </div>
         <div class="card">
-            <h2>1</h2>
-            <p>Message</p>
-        </div>
-        <div class="card">
-            <h2>4</h2>
-            <p>Groups</p>
+            <h2>@Model.TotalInventoryCost</h2>
+            <p>Total Inventory Cost</p>
         </div>
     </div>
 
@@ -78,47 +74,58 @@
             </script>
 
             <script>
-                // Dummy data for the bar chart
-                const categoryData = {
-                    labels: ["Electronics", "Clothing", "Books", "Toys", "Furniture"], // Category names
-                    datasets: [{
-                        label: 'Number of Items',
-                        data: [50, 75, 20, 40, 30], // Example dummy data
-                        backgroundColor: [
-                            '#4CAF50',
-                            '#FF5722',
-                            '#FFC107',
-                            '#03A9F4',
-                            '#9C27B0'
-                        ],
-                        borderColor: [
-                            '#388E3C',
-                            '#D32F2F',
-                            '#FFA000',
-                            '#0288D1',
-                            '#7B1FA2'
-                        ],
-                        borderWidth: 1
-                    }]
-                };
+                document.addEventListener('DOMContentLoaded', (event) => {
+                    const categoryData = {
+                        labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.CategoryStockData.Keys.ToArray())),
+                        datasets: [{
+                            label: 'Number of Items',
+                            data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.CategoryStockData.Values.ToArray())),
+                            backgroundColor: [
+                                '#4CAF50',
+                                '#FF5722',
+                                '#FFC107',
+                                '#03A9F4',
+                                '#9C27B0',
+                                '#FFEB3B',
+                                '#8BC34A',
+                                '#009688',
+                                '#9E9E9E',
+                                '#795548'
+                            ],
+                            borderColor: [
+                                '#388E3C',
+                                '#D32F2F',
+                                '#FFA000',
+                                '#0288D1',
+                                '#7B1FA2',
+                                '#FBC02D',
+                                '#689F38',
+                                '#00796B',
+                                '#616161',
+                                '#5D4037'
+                            ],
+                            borderWidth: 1
+                        }]
+                    };
 
-                // Configuration for the bar chart
-                const categoryChartConfig = {
-                    type: 'bar',
-                    data: categoryData,
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true
+                    const ctx = document.getElementById('categoryChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar', // You can change this to 'pie' or 'doughnut' if you want different types of charts
+                        data: categoryData,
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Items by Category'
+                                }
                             }
                         }
-                    }
-                };
-
-                // Render the bar chart in the 'categoryChart' canvas
-                const categoryChartCtx = document.getElementById('categoryChart').getContext('2d');
-                new Chart(categoryChartCtx, categoryChartConfig);
+                    });
+                });
             </script>
         }
         <div class="top-categories">

@@ -76,7 +76,7 @@ namespace DatabaseApplication.Pages.Registered
                 Model = this.Model,
                 CheckedIn = true, // Default value for CheckedIn
                 CreatedAt = DateTime.UtcNow,
-                Creator = _userService.UserId, // Replace with the logged-in user's ID
+                //Creator = _userService.UserId, // Replace with the logged-in user's ID
             };
 
             await _itemService.AddItemAsync(newItem);

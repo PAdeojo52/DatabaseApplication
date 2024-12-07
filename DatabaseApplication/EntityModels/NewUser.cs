@@ -14,7 +14,7 @@ namespace DatabaseApplication.NewFolder
         {
             [PrimaryKey("id")] // Supabase Primary Key
             [Column("id")]
-            public int Id { get; set; }
+            public int? Id { get; set; }
 
             [Column("first_name")]
             public string FirstName { get; set; }

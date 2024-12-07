@@ -45,5 +45,78 @@ namespace DatabaseApplication.Services
         {
             await _supabaseClient.From<Item>().Insert(newItem);
         }
+        public async Task<List<Item>> GetAllItemsAsync()
+        {
+            var response = await _supabaseClient.From<Item>().Get();
+            return response.Models;
+        }
+
+        public async Task<bool> CheckoutItemAsync(int itemId, int userId)
+        {
+            try
+            {
+                // Fetch the item to update
+                var itemResponse = await _supabaseClient.From<Item>().Filter("id", Supabase.Postgrest.Constants.Operator.Equals, itemId).Get();
+                var item = itemResponse.Models.FirstOrDefault();
+
+                if (item == null)
+                {
+                    return false; // Item not found
+                }
+
+                // Update the item's CheckedIn and Borrower fields
+                item.CheckedIn = false;
+                item.Creator = userId;
+
+                // Update the item in the database
+                var response = await _supabaseClient.From<Item>().Update(item);
+
+                return response.Models.Count > 0; // Return true if update was successful
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error checking out item: {ex.Message}");
+                return false;
+            }
+        }
+
+
+        public async Task<Item> GetItemByIdAsync(int itemId)
+        {
+            var response = await _supabaseClient.From<Item>()
+                .Filter("id", Supabase.Postgrest.Constants.Operator.Equals, itemId)
+                .Get();
+
+            return response.Models.FirstOrDefault(); // Returns the item with the specified ID
+        }
+
+        public async Task<bool> CheckInItemAsync(int itemId)
+        {
+            try
+            {
+                // Fetch the item to update
+                var itemResponse = await _supabaseClient.From<Item>()
+                    .Filter("id", Supabase.Postgrest.Constants.Operator.Equals, itemId)
+                    .Get();
+
+                var item = itemResponse.Models.FirstOrDefault();
+                if (item == null) return false;
+
+                // Update the item's CheckedIn and Borrower fields
+                item.CheckedIn = true;
+                item.Creator = null; // Clear the Borrower field
+
+                // Update the item in the database
+                var response = await _supabaseClient.From<Item>().Update(item);
+                return response.Models.Count > 0; // Return true if the update was successful
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error checking in item: {ex.Message}");
+                return false;
+            }
+        }
+
+
     }
 }

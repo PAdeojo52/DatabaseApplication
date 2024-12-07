@@ -253,3 +253,12 @@
         margin: 5px 0;
         font-size: 14px;
     }
+.chart-container {
+    width: 80%;
+    margin: 20px auto;
+}
+
+canvas {
+    display: block;
+    margin: auto;
+}
