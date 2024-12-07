@@ -57,7 +57,7 @@ namespace DatabaseApplication.Pages
                 }
 
                 // Step 3: Set user session
-                _userServiceSession.UserId = userResponse.Id; // Store the user's ID in the session
+                _userServiceSession.UserId = userResponse.Id.Value; // Store the user's ID in the session
                 _userServiceSession.IsLoggedIn = true;
 
                 // Step 4: Redirect to the logged-in index page

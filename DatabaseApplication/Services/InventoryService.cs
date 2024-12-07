@@ -49,6 +49,13 @@ namespace DatabaseApplication.Services
             return (decimal)response.Models.Sum(item => item.Price); // Assuming 'Cost' is a property in 'Item'
         }
 
+
+        public async Task<double> CalculateTotalInventoryCostAsync()
+        {
+            var response = await _supabaseClient.From<Item>().Get();
+            return response.Models.Sum(item => item.Price); // Sum up all item prices
+        }
+
         // Get total stock in from all items
 
     }

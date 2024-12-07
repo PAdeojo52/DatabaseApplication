@@ -10,60 +10,67 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Image</th>
                 <th>Name of Product</th>
-                <th>Status</th>
-                <th>Stock Info</th>
+                <th>Check Out</th>
                 <th>Category</th>
-                <th>Location</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Items)
             {
                 <tr>
-                    <!-- Photo Column -->
                     <td>
-                        @if (!string.IsNullOrEmpty(item.Photo))
-                        {
-                            <img src="@item.Photo" alt="@item.Name" style="width: 50px; height: 50px;" />
-                        }
-                        else
-                        {
-                            <span>No Image</span>
-                        }
-                    </td>
-
                     <!-- Name Column -->
-                    <td>@item.Name</td>
+                        <span>@($"{item.Make} {item.Model}") </span>
+                    
+                     </td>
 
-                    <!-- Status Column -->
+                    <!-- Check Out Column -->
                     <td>
-                        @if (item.Id > 10)
+                        @if (item.CheckedIn.Value)
                         {
-                            <span class="badge bg-success">Active</span>
-                        }
-                        else if (item.Id > 0)
-                        {
-                            <span class="badge bg-warning">Low in Stock</span>
+                            <span class="badge bg-success">Available</span>
                         }
                         else
                         {
-                            <span class="badge bg-danger">Out of Stock</span>
+                            <span class="badge bg-danger">Checked Out</span>
                         }
                     </td>
-
-                    <!-- Stock Info Column -->
-                    <td>@item.Price in stock</td>
 
                     <!-- Category Column -->
-                    <td>@item.Category</td>
+                    <td>@Model.GetCategoryName(item.Category.Value)</td>
 
-                    <!-- Location Column -->
-                    <td>Null (Location not implemented yet)</td>
+
+                    <!-- Action Column -->
+                    <td>
+                        @if (item.CheckedIn.Value)
+                        {
+                            <!-- Check Out Button -->
+                            <form method="post" asp-page-handler="Checkout">
+                                <input type="hidden" name="itemId" value="@item.Id" />
+                                <button type="submit" class="btn btn-primary btn-sm">Check Out</button>
+                            </form>
+                        }
+                        else
+                        {
+                            @if (item.Creator == Model._userServiceSession.UserId)
+                            {
+                                <!-- Check In Button -->
+                                <form method="post" asp-page-handler="CheckIn">
+                                    <input type="hidden" name="itemId" value="@item.Id" />
+                                    <button type="submit" class="btn btn-success btn-sm">Check In</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <!-- User is not authorized to check in -->
+                                <span class="text-muted">Checked Out by Another User</span>
+                            }
+                        }
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
-

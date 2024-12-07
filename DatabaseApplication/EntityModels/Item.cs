@@ -32,7 +32,7 @@ namespace DatabaseApplication.EntityModels
         public string? Photo { get; set; } // Maps to the "photo" column
 
         [Column("creater")]
-        public long Creator { get; set; } // Maps to the "creater" column
+        public long? Creator { get; set; } // Maps to the "creater" column
 
         [Column("item_location")]
         public long? ItemLocation { get; set; } // Maps to the "item_location" column
