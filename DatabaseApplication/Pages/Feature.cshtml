@@ -1,15 +1,149 @@
 ﻿@page
 @model FeatureModel
 @{
-    ViewData["Title"] = "Inventory features";
+    ViewData["Title"] = "";
 }
 <h1>@ViewData["Title"]</h1>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - Medical Equipment Inventory</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .feature-icon {
+            font-size: 3rem;
+            color: #007bff;
+            margin-bottom: 1rem;
+        }
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 <body>
    
+
+    <!-- Features Header -->
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="display-4 mb-4">Comprehensive Equipment Management</h1>
+                <p class="lead text-muted">Streamline your medical equipment tracking, maintenance, and reporting</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Grid -->
+    <div class="container">
+        <div class="row g-4">
+            <!-- Real-time Tracking -->
+            <div class="col-md-4">
+                <div class="card feature-card p-4 text-center">
+                    <div class="feature-icon">
+                        <i class="bi bi-geo-alt-fill"></i>
+                    </div>
+                    <h3 class="h4 mb-3">Real-time Tracking</h3>
+                    <p class="text-muted">
+                        Monitor the exact location and status of every piece of medical equipment 
+                        in real-time across multiple departments and facilities.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Maintenance Scheduling -->
+            <div class="col-md-4">
+                <div class="card feature-card p-4 text-center">
+                    <div class="feature-icon">
+                        <i class="bi bi-calendar2-check-fill"></i>
+                    </div>
+                    <h3 class="h4 mb-3">Automated Maintenance</h3>
+                    <p class="text-muted">
+                        Automated scheduling and tracking of equipment maintenance, 
+                        with alerts for upcoming service dates and potential replacements.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Reporting -->
+            <div class="col-md-4">
+                <div class="card feature-card p-4 text-center">
+                    <div class="feature-icon">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+                    <h3 class="h4 mb-3">Comprehensive Reporting</h3>
+                    <p class="text-muted">
+                        Generate detailed reports on equipment usage, lifecycle, 
+                        maintenance history, and cost analysis with customizable dashboards.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Inventory Management -->
+            <div class="col-md-4">
+                <div class="card feature-card p-4 text-center">
+                    <div class="feature-icon">
+                        <i class="bi bi-box-seam-fill"></i>
+                    </div>
+                    <h3 class="h4 mb-3">Smart Inventory Management</h3>
+                    <p class="text-muted">
+                        Track equipment inventory levels, set reorder points, 
+                        and manage procurement with intelligent stock management tools.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Compliance Tracking -->
+            <div class="col-md-4">
+                <div class="card feature-card p-4 text-center">
+                    <div class="feature-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h3 class="h4 mb-3">Compliance Management</h3>
+                    <p class="text-muted">
+                        Ensure regulatory compliance with automated tracking of 
+                        certifications, calibrations, and safety inspections.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Integration -->
+            <div class="col-md-4">
+                <div class="card feature-card p-4 text-center">
+                    <div class="feature-icon">
+                        <i class="bi bi-link-45deg"></i>
+                    </div>
+                    <h3 class="h4 mb-3">Seamless Integration</h3>
+                    <p class="text-muted">
+                        Easy integration with existing hospital management systems, 
+                        electronic health records, and financial tracking platforms.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="mb-4">Ready to Optimize Your Equipment Management?</h2>
+                <a href="/Signup" class="btn btn-primary btn-lg">Request a Demo</a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 </body>
 </html>
