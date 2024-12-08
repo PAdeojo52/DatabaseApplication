@@ -1,0 +1,205 @@
+﻿@page
+@model ContactModel
+@{
+    ViewData["Title"] = "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Medical Equipment Inventory</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .dashboard-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .status-green { background-color: #28a745; }
+        .status-yellow { background-color: #ffc107; }
+        .status-red { background-color: #dc3545; }
+    </style>
+</head>
+<body>
+    
+
+    <!-- Dashboard Header -->
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="display-6 mb-0">Equipment Management Dashboard</h1>
+                <p class="text-muted">Latest overview of medical equipment inventory</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="container-fluid">
+        <div class="row g-3">
+            <div class="col-md-3 col-sm-6">
+                <div class="card dashboard-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title text-muted mb-2">Total Equipment</h6>
+                                <h3 class="card-text">425</h3>
+                            </div>
+                            <i class="bi bi-boxes text-primary h2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card dashboard-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title text-muted mb-2">In Use</h6>
+                                <h3 class="card-text">312</h3>
+                            </div>
+                            <i class="bi bi-check-circle text-success h2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card dashboard-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title text-muted mb-2">Maintenance</h6>
+                                <h3 class="card-text">38</h3>
+                            </div>
+                            <i class="bi bi-tools text-warning h2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card dashboard-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title text-muted mb-2">Need Replacement</h6>
+                                <h3 class="card-text">15</h3>
+                            </div>
+                            <i class="bi bi-exclamation-triangle text-danger h2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Content -->
+    <div class="container-fluid mt-4">
+        <div class="row g-4">
+            <!-- Equipment List -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="card-title mb-0">Equipment Status Overview</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-striped mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Equipment Name</th>
+                                        <th>Department</th>
+                                        <th>Status</th>
+                                        <th>Last Maintenance</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>MRI Scanner</td>
+                                        <td>Radiology</td>
+                                        <td>
+                                            <span class="status-dot status-green"></span>
+                                            Operational
+                                        </td>
+                                        <td>2 months ago</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary">Details</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ventilator</td>
+                                        <td>ICU</td>
+                                        <td>
+                                            <span class="status-dot status-yellow"></span>
+                                            Maintenance
+                                        </td>
+                                        <td>3 weeks ago</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-warning">Repair</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>X-Ray Machine</td>
+                                        <td>Diagnostic</td>
+                                        <td>
+                                            <span class="status-dot status-red"></span>
+                                            Needs Replacement
+                                        </td>
+                                        <td>6 months ago</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-danger">Replace</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maintenance Schedule -->
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-header bg-white">
+                        <h5 class="card-title mb-0">Upcoming Maintenance</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Ultrasound Machine
+                                <span class="badge bg-warning">Next Week</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                CT Scanner
+                                <span class="badge bg-primary">In 2 Weeks</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                ECG Monitor
+                                <span class="badge bg-info">In 3 Weeks</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+</body>
+</html>
