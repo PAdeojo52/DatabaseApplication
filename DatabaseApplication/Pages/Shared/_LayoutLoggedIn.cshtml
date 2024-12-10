@@ -6,7 +6,7 @@
 
     // Fetch the user's authorization level
     var userId = UserServiceSession.UserId;
-    if (userId > 0) // Ensure the user is logged in
+    if (userId >= 0) // Ensure the user is logged in
     {
         var userResponse = SupabaseClient.From<DatabaseApplication.NewFolder.NewUser.User>()
             .Filter("id", Supabase.Postgrest.Constants.Operator.Equals, userId)
@@ -45,7 +45,7 @@
                         <i class="bi bi-box"></i> Products
                     </a>
                 </li>
-                @if (authorizationLevel == 0) // Render Finance link for admin users only
+                @if (authorizationLevel == 1) // Render Finance link for admin users only
                 {
                     <li class="nav-item">
                         <a class="nav-link" asp-page="/Registered/Finance">
