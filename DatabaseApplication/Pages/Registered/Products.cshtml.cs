@@ -23,11 +23,26 @@ namespace DatabaseApplication.Pages.Registered
         public List<Item> Items { get; set; }
         public Dictionary<int, string> Categories { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string? categoryFilter, string? availabilityFilter)
         {
             // Fetch all items from the Supabase Items table
-            Items = await _itemService.GetAllItemsAsync();
+            var allItems = await _itemService.GetAllItemsAsync();
 
+            // Filter by category
+            if (!string.IsNullOrEmpty(categoryFilter) && int.TryParse(categoryFilter, out int categoryId))
+            {
+                allItems = allItems.Where(item => item.Category == categoryId).ToList();
+            }
+
+            // Filter by availability
+            if (!string.IsNullOrEmpty(availabilityFilter) && bool.TryParse(availabilityFilter, out bool isAvailable))
+            {
+                allItems = allItems.Where(item => item.CheckedIn == isAvailable).ToList();
+            }
+
+            Items = allItems;
+
+            // Fetch categories for the dropdown
             var categories = await _categoryService.GetAllCategoriesAsync();
             Categories = categories.ToDictionary(c => c.Id, c => c.Name);
         }
@@ -104,5 +119,8 @@ namespace DatabaseApplication.Pages.Registered
 
             return RedirectToPage();
         }
+
+
+
     }
 }

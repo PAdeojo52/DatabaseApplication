@@ -6,7 +6,24 @@
 }
 
 <div class="dashboard-overview">
+
+    
+
     <h1>Recent Activity</h1>
+
+    <!-- Alerts Section -->
+    @if (Model.Alerts.Any(alert => alert.Status == true))
+    {
+        <div class="alert alert-warning" role="alert">
+            <h4>Active Alerts</h4>
+            <ul>
+                @foreach (var alert in Model.Alerts.Where(alert => alert.Status == true))
+                {
+                    <li>@alert.Message</li>
+                }
+            </ul>
+        </div>
+    }
     <div class="dashboard-cards">
         <div class="card">
             <h2>@Model.TotalStockIn</h2>
