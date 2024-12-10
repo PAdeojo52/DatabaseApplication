@@ -51,13 +51,17 @@ namespace DatabaseApplication.Pages
             // Hash the password before saving
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(Password);
 
+            var random = new Random();
+
             var user = new User
             {
+                Id = random.Next(1, int.MaxValue),
                 FirstName = FirstName,
                 LastName = LastName,
                 Email = Email,
                 Password = Password, // Save plain password (not recommended for production)
-                HashedPassword = hashedPassword // Save hashed password
+                HashedPassword = hashedPassword,
+                Autherization = 0// Save hashed password
             };
 
             try

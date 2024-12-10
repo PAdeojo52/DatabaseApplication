@@ -1,0 +1,144 @@
+﻿@page
+@model DatabaseApplication.Pages.FeaturesModel
+@{
+    //Layout = "~/Pages/Shared/_Layout.cshtml"; // Use the shared layout for consistency
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .features-container {
+            padding: 50px 20px;
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            border: none;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            transition: transform 0.3s;
+        }
+
+            .feature-card:hover {
+                transform: translateY(-5px);
+            }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+        }
+
+            .cta-section .btn {
+                font-size: 1.2rem;
+            }
+
+        footer {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="features-container container">
+        <!-- Header Section -->
+        <div class="features-header">
+            <h1>Comprehensive Inventory Management</h1>
+            <p class="lead">Streamline your inventory tracking, scheduling, and reporting.</p>
+        </div>
+
+        <!-- Features Section -->
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-geo-alt-fill"></i> <!-- Use Bootstrap Icons or replace with your own -->
+                    </div>
+                    <h5 class="card-title">Real-Time Tracking</h5>
+                    <p class="card-text">Monitor the exact location and status of every inventory item in real time.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-calendar-check-fill"></i>
+                    </div>
+                    <h5 class="card-title">Automated Maintenance</h5>
+                    <p class="card-text">Track and schedule maintenance with proactive alerts and updates.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-bar-chart-fill"></i>
+                    </div>
+                    <h5 class="card-title">Comprehensive Reporting</h5>
+                    <p class="card-text">Generate detailed reports on inventory lifecycle and usage trends.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-box-fill"></i>
+                    </div>
+                    <h5 class="card-title">Smart Inventory Management</h5>
+                    <p class="card-text">Track inventory levels, set reorder points, and manage stock intelligently.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h5 class="card-title">Compliance Management</h5>
+                    <p class="card-text">Ensure compliance with certifications, inspections, and regulatory requirements.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-link-45deg"></i>
+                    </div>
+                    <h5 class="card-title">Seamless Integration</h5>
+                    <p class="card-text">Integrate easily with existing management and financial systems.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call-to-Action Section -->
+        <div class="cta-section">
+            <h3>Ready to Optimize Your Inventory Management?</h3>
+            
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 InventoryApp. <a href="#">Privacy</a></p>
+    </footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

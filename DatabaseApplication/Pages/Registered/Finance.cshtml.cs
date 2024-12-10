@@ -32,7 +32,10 @@ namespace DatabaseApplication.Pages.Registered
         {
             // Fetch all items
             var itemsResponse = await _supabaseClient.From<Item>().Get();
+            var categoriesResponse = await _supabaseClient.From<Category>().Get();
+
             var items = itemsResponse.Models;
+            var categories = categoriesResponse.Models;
 
 
             var usersResponse = await _supabaseClient.From<NewUser.User>().Get();
@@ -40,11 +43,12 @@ namespace DatabaseApplication.Pages.Registered
             var users = usersResponse.Models;
 
             InventoryValueByCategory = items
-                .GroupBy(item => item.Category)
-                .ToDictionary(
-                    group => $"Category {group.Key}",
-                    group => group.Sum(item => item.Price)
-                );
+               .GroupBy(item => item.Category)
+               .ToDictionary(
+                   group =>
+                       categories.FirstOrDefault(c => c.Id == group.Key)?.Name ?? $"Unknown Category ({group.Key})",
+                   group => group.Sum(item => item.Price)
+               );
 
             MostValuableItems = items
                 .OrderByDescending(item => item.Price)

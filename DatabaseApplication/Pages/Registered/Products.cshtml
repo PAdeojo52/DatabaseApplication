@@ -21,14 +21,13 @@
             {
                 <tr>
                     <td>
-                    <!-- Name Column -->
+                        <!-- Name Column -->
                         <span>@($"{item.Make} {item.Model}") </span>
-                    
-                     </td>
+                    </td>
 
                     <!-- Check Out Column -->
                     <td>
-                        @if (item.CheckedIn.Value)
+                        @if (item.CheckedIn.HasValue && item.CheckedIn.Value)
                         {
                             <span class="badge bg-success">Available</span>
                         }
@@ -39,12 +38,20 @@
                     </td>
 
                     <!-- Category Column -->
-                    <td>@Model.GetCategoryName(item.Category.Value)</td>
-
+                    <td>
+                        @if (item.Category.HasValue)
+                        {
+                            @Model.GetCategoryName(item.Category.Value)
+                        }
+                        else
+                        {
+                            <span class="text-muted">Unknown Category</span>
+                        }
+                    </td>
 
                     <!-- Action Column -->
                     <td>
-                        @if (item.CheckedIn.Value)
+                        @if (item.CheckedIn.HasValue && item.CheckedIn.Value)
                         {
                             <!-- Check Out Button -->
                             <form method="post" asp-page-handler="Checkout">

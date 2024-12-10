@@ -8,16 +8,12 @@ namespace DatabaseApplication.Pages.Registered
 {
     public class ProductsModel : PageModel
     {
-       // private readonly ApplicationDbContext _context;
-
         private readonly ItemService _itemService;
         public readonly UserServiceSession _userServiceSession;
         private readonly CategoryService _categoryService;
 
-
         public ProductsModel(ItemService itemService, UserServiceSession userServiceSession, CategoryService categoryService)
         {
-            //_context = context;
             _itemService = itemService;
             _userServiceSession = userServiceSession;
             _categoryService = categoryService;
@@ -32,7 +28,6 @@ namespace DatabaseApplication.Pages.Registered
             // Fetch all items from the Supabase Items table
             Items = await _itemService.GetAllItemsAsync();
 
-
             var categories = await _categoryService.GetAllCategoriesAsync();
             Categories = categories.ToDictionary(c => c.Id, c => c.Name);
         }
@@ -44,37 +39,66 @@ namespace DatabaseApplication.Pages.Registered
 
         public async Task<IActionResult> OnPostCheckoutAsync(int itemId)
         {
-            Items = await _itemService.GetAllItemsAsync();
             var userId = _userServiceSession.UserId;
 
-            // Check if the user is allowed to check in the item
+            // Fetch the item by ID
             var item = await _itemService.GetItemByIdAsync(itemId);
-
-            if (item != null && item.Creator == userId)
+            if (item == null)
             {
-                // Perform the check-in operation
-                bool successCheckIn = await _itemService.CheckInItemAsync(itemId);
-
-                if (!successCheckIn)
-                {
-                    // Handle error (e.g., log it or show an error message)
-                    return RedirectToPage("Error");
-                }
-            }
-            else
-            {
-
-
-                // User is not authorized to check in the item
-                return Unauthorized();
+                // If the item does not exist, return an error
+                return NotFound();
             }
 
-            // Update the item in the database
+            if (!item.CheckedIn.HasValue || !item.CheckedIn.Value)
+            {
+                // If the item is already checked out, return an error
+                ModelState.AddModelError("", "Item is already checked out.");
+                return RedirectToPage();
+            }
+
+            // Perform the checkout operation
             bool success = await _itemService.CheckoutItemAsync(itemId, userId);
 
             if (!success)
             {
-                // Handle error (e.g., log it or show an error message)
+                // Handle the error (e.g., log it or show an error message)
+                return RedirectToPage("Error");
+            }
+
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostCheckInAsync(int itemId)
+        {
+            var userId = _userServiceSession.UserId;
+
+            // Fetch the item by ID
+            var item = await _itemService.GetItemByIdAsync(itemId);
+            if (item == null)
+            {
+                // If the item does not exist, return an error
+                return NotFound();
+            }
+
+            if (item.CheckedIn.HasValue && item.CheckedIn.Value)
+            {
+                // If the item is already checked in, return an error
+                ModelState.AddModelError("", "Item is already checked in.");
+                return RedirectToPage();
+            }
+
+            if (item.Creator != userId)
+            {
+                // If the item was checked out by another user, deny access
+                return Forbid();
+            }
+
+            // Perform the check-in operation
+            bool success = await _itemService.CheckInItemAsync(itemId);
+
+            if (!success)
+            {
+                // Handle the error (e.g., log it or show an error message)
                 return RedirectToPage("Error");
             }
 

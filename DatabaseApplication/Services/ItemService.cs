@@ -81,34 +81,36 @@ namespace DatabaseApplication.Services
         }
 
 
-        public async Task<Item> GetItemByIdAsync(int itemId)
+        public async Task<Item?> GetItemByIdAsync(int itemId)
         {
-            var response = await _supabaseClient.From<Item>()
-                .Filter("id", Supabase.Postgrest.Constants.Operator.Equals, itemId)
-                .Get();
-
-            return response.Models.FirstOrDefault(); // Returns the item with the specified ID
+            var response = await _supabaseClient.From<Item>().Filter("id", Supabase.Postgrest.Constants.Operator.Equals, itemId).Single();
+            return response;
         }
 
+        public async Task<bool> CheckoutItemSecondaryAsync(int itemId, int userId)
+        {
+            var response = await _supabaseClient
+                .From<Item>()
+                .Where(x => x.Id == itemId)
+                .Set(x => x.CheckedIn, false)
+                .Set(x => x.Creator, userId)
+                .Update();
+
+            return response != null;
+        }
         public async Task<bool> CheckInItemAsync(int itemId)
         {
             try
             {
-                // Fetch the item to update
-                var itemResponse = await _supabaseClient.From<Item>()
-                    .Filter("id", Supabase.Postgrest.Constants.Operator.Equals, itemId)
-                    .Get();
+                // Use the latest Supabase syntax to update specific fields
+                var response = await _supabaseClient
+                    .From<Item>()
+                    .Where(x => x.Id == itemId) // Filter by the item ID
+                    .Set(x => x.CheckedIn, true) // Update the CheckedIn field
+                    .Update(); // Execute the update operation
 
-                var item = itemResponse.Models.FirstOrDefault();
-                if (item == null) return false;
-
-                // Update the item's CheckedIn and Borrower fields
-                item.CheckedIn = true;
-                item.Creator = null; // Clear the Borrower field
-
-                // Update the item in the database
-                var response = await _supabaseClient.From<Item>().Update(item);
-                return response.Models.Count > 0; // Return true if the update was successful
+                // Check if the update was successful
+                return response.Models != null && response.Models.Any();
             }
             catch (Exception ex)
             {

@@ -1,5 +1,4 @@
 ﻿@page
-html
 @{
     Layout = null; // if you want this as a standalone page without the default layout
 }
@@ -9,96 +8,120 @@ html
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Cover Page</title>
+    <title>Database Name</title>
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-        /* Cover page styling */
+        /* Styling for the new design */
         html, body {
             height: 100%;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+
+        .hero {
             background-color: #333;
-            color: #ddd;
+            color: white;
             text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
+            padding: 80px 20px;
         }
 
-        .cover-container {
-            max-width: 42em;
-            padding: 0 1rem;
+            .hero .btn {
+                margin-top: 20px;
+            }
+
+        .feature-cards {
+            padding: 40px 20px;
         }
 
-        .cover-heading {
-            font-size: 2.5rem;
-            font-weight: 300;
+        .feature-card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: none;
+            border-radius: 0.5rem;
         }
 
-        .nav-link {
-            color: #ddd;
-            font-weight: 500;
-        }
-
-        .btn-primary {
-            background-color: #555;
-            border-color: #555;
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            margin-top: 40px;
         }
     </style>
 </head>
 <body>
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Cover</a>
+            <a class="navbar-brand" href="#">Database Name</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link active" asp-page="/Index">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
+                        <a class="nav-link" href="/Features">Features</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
                     </li>
-                    
                 </ul>
-
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="/Signup">Sign up</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-page="/Login">Login</a>
                     </li>
-
-                </ul>
-
-                <ul class="navbar-nav">
                     @if (User.Identity != null && User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-page="/Logout">Logout</a>
                         </li>
-                    }    
-                   
+                    }
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-        <main role="main" class="inner cover">
-            <h1 class="cover-heading">Database Name to be here</h1>
-            <p class="lead">lux norem</p>
-            <p class="lead">
-                <a href="#" class="btn btn-lg btn-primary">Learn more</a>
-            </p>
-        </main>
-        <footer class="mt-auto text-white-50">
-            
-        </footer>
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1 class="display-4">Optimize Your Inventory Management</h1>
+        <p class="lead">Streamline tracking, scheduling, and compliance reporting with ease.</p>
+        <a href="#" class="btn btn-primary btn-lg">Learn More</a>
     </div>
+
+    <!-- Features Section -->
+    <div class="container feature-cards">
+        <h2 class="text-center mb-4">Why Choose This Inventory App?</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card feature-card p-3">
+                    <h5 class="card-title">Real-Time Tracking</h5>
+                    <p class="card-text">Monitor inventory across locations with real-time updates.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card feature-card p-3">
+                    <h5 class="card-title">Maintenance Scheduling</h5>
+                    <p class="card-text">Never miss a maintenance date with automated reminders.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card feature-card p-3">
+                    <h5 class="card-title">Compliance Management</h5>
+                    <p class="card-text">Stay compliant with reports and audit-ready records.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Inventory App. All rights reserved.</p>
+    </footer>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>

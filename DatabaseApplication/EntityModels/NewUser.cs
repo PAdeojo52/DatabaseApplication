@@ -30,7 +30,10 @@ namespace DatabaseApplication.NewFolder
 
             [Column("hashed_password")] // Map to the "hashed_password" column
             public string HashedPassword { get; set; }
-           
+
+            [Column("Autherization")]
+            public int? Autherization { get; set; }
+
         }
     }
 }

@@ -60,6 +60,33 @@ namespace ApplicationTests.QueryTest
             }
         }
 
+        [Fact]
+        public async Task SetAllUserAuthorizationToZero()
+        {
+            // Fetch all users from the User table
+            var response = await _supabaseClient.From<NewUser.User>().Get();
+            var users = response.Models;
+
+            Assert.NotNull(users); // Ensure users are fetched
+
+            foreach (var user in users)
+            {
+                // Update the Authorization field for each user
+                user.Autherization = 0;
+                await _supabaseClient.From<NewUser.User>().Update(user);
+            }
+
+            // Fetch users again to verify updates
+            var updatedResponse = await _supabaseClient.From<NewUser.User>().Get();
+            var updatedUsers = updatedResponse.Models;
+
+            // Verify all users have Authorization set to 0
+            Assert.All(updatedUsers, u => Assert.Equal(0, u.Autherization));
+        }
+
+
+
+
         private string HashPassword(string password)
         {
             // Simulate password hashing (replace with actual hashing logic if required)
