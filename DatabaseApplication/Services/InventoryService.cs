@@ -56,6 +56,17 @@ namespace DatabaseApplication.Services
             return response.Models.Sum(item => item.Price); // Sum up all item prices
         }
 
+
+        [Obsolete]
+        public async Task<List<Alerts>> GetLowStockAlertsAsync()
+        {
+            var response = await _supabaseClient.From<Alerts>().Get();
+            return response.Models;
+
+            //Not Needed
+        }
+
+
         // Get total stock in from all items
 
     }

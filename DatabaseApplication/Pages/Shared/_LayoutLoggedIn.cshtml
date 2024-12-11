@@ -1,10 +1,28 @@
-﻿<!DOCTYPE html>
+﻿@inject Supabase.Client SupabaseClient
+@inject DatabaseApplication.Services.UserServiceSession UserServiceSession
+@{
+    ViewData["Title"] = "Dashboard";
+    var authorizationLevel = 0; // Default to non-admin
+
+    // Fetch the user's authorization level
+    var userId = UserServiceSession.UserId;
+    if (userId >= 0) // Ensure the user is logged in
+    {
+        var userResponse = SupabaseClient.From<DatabaseApplication.NewFolder.NewUser.User>()
+            .Filter("id", Supabase.Postgrest.Constants.Operator.Equals, userId)
+            .Get().Result;
+
+        var user = userResponse.Models.FirstOrDefault();
+        authorizationLevel = user?.Autherization ?? 0; // Default to 0 if not found
+    }
+}
+<!DOCTYPE html>
 
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/loggedin.css" asp-append-version="true" />
 </head>
@@ -27,21 +45,16 @@
                         <i class="bi bi-box"></i> Products
                     </a>
                 </li>
-              <!---  <li class="nav-item">
-                    <a class="nav-link" href="/Stores">
-                          <i class="bi bi-shop"></i> Stores 
-                    </a>
-                  </li> ---->
-                <li class="nav-item">
-                    <a class="nav-link" asp-page="/Registered/Finance">
-                        <i class="bi bi-currency-dollar"></i> Finances
-                    </a>
-                </li>
-                <!---   <li class="nav-item">
-                    <a class="nav-link" href="/Settings">
-                        <i class="bi bi-gear"></i> Settings
-                    </a>
-                </li>---->
+
+                @if (authorizationLevel == 1) // Render Finance link for admin users only
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-page="/Registered/Finance">
+                            <i class="bi bi-currency-dollar"></i> Finances
+                        </a>
+                    </li>
+                }
+
             </ul>
             <div class="sidebar-footer">
                 <a asp-page="/Registered/AddItem" class="btn btn-primary btn-block">Add Product</a>
@@ -49,27 +62,19 @@
             </div>
         </nav>
 
-    <div lass="main-content">
+        <div class="main-content">
             <header class="main-header">
                 <input type="search" placeholder="Search" class="search-input" />
             </header>
-        <main role="main" class="pb-3">
-        @RenderBody()
-        </main>
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
     </div>
-</div>
 
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-
-        @RenderSection("Scripts", required: false)
-
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-
-
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    @RenderSection("Scripts", required: false)
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -7,44 +7,45 @@
 
 <h1>Finance Dashboard</h1>
 
-<div class="chart-container">
-    <canvas id="barChart"></canvas>
-</div>
-<div class="chart-container">
-    <canvas id="inventoryValueChart"></canvas>
-</div>
-<div class="chart-container">
-    <canvas id="mostValuableItemsChart"></canvas>
-</div>
-<div class="chart-container">
-    <canvas id="userCheckoutValueChart"></canvas>
-</div>
-<div class="chart-container">
-    <canvas id="checkoutsByCategoryChart"></canvas>
-</div>
-<div class="chart-container">
-    <canvas id="topBorrowersChart"></canvas>
-</div>
 
-<div class="chart-container">
-    <canvas id="revenueProjectionChart"></canvas>
+<div class="charts-grid">
+    <div class="chart-container">
+        <canvas id="barChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="inventoryValueChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="mostValuableItemsChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="userCheckoutValueChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="checkoutsByCategoryChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="topBorrowersChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="revenueProjectionChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="overdueItemsChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="lowStockItemsChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <div id="averageCheckoutValue">Average Checkout Value: $@Model.AverageCheckoutValue.ToString("F2")</div>
+    </div>
+    <div class="chart-container">
+        <canvas id="financialImpactChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="userCheckoutSplitChart"></canvas>
+    </div>
 </div>
-<div class="chart-container">
-    <canvas id="overdueItemsChart"></canvas>
-</div>
-<div class="chart-container">
-    <canvas id="lowStockItemsChart"></canvas>
-</div>
-<div class="chart-container">
-    <div id="averageCheckoutValue">Average Checkout Value: $@Model.AverageCheckoutValue.ToString("F2")</div>
-</div>
-<div class="chart-container">
-    <canvas id="financialImpactChart"></canvas>
-</div>
-<div class="chart-container">
-    <canvas id="userCheckoutSplitChart"></canvas>
-</div>
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const ctx = document.getElementById('barChart').getContext('2d');

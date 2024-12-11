@@ -7,11 +7,67 @@
 
 <div class="product-list-container">
     <h1>Products</h1>
+
+
+    <!-- Filters Section -->
+    <form method="get" class="mb-4">
+        <div class="row">
+            <!-- Category Filter -->
+            <div class="col-md-4">
+                <label for="categoryFilter" class="form-label">Filter by Category</label>
+                <select id="categoryFilter" name="categoryFilter" class="form-select">
+                    <option value="">All Categories</option>
+                    @foreach (var category in Model.Categories)
+                    {
+                        if (Request.Query["categoryFilter"] == category.Key.ToString())
+                        {
+                            <option value="@category.Key" selected>@category.Value</option>
+                        }
+                        else
+                        {
+                            <option value="@category.Key">@category.Value</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <!-- Availability Filter -->
+            <div class="col-md-4">
+                <label for="availabilityFilter" class="form-label">Filter by Availability</label>
+                <select id="availabilityFilter" name="availabilityFilter" class="form-select">
+                    <option value="">All</option>
+                    @if (Request.Query["availabilityFilter"] == "true")
+                    {
+                        <option value="true" selected>Available</option>
+                        <option value="false">Checked Out</option>
+                    }
+                    else if (Request.Query["availabilityFilter"] == "false")
+                    {
+                        <option value="true">Available</option>
+                        <option value="false" selected>Checked Out</option>
+                    }
+                    else
+                    {
+                        <option value="true">Available</option>
+                        <option value="false">Checked Out</option>
+                    }
+                </select>
+            </div>
+
+            <!-- Filter Button -->
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+        </div>
+    </form>
+
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Name of Product</th>
-                <th>Check Out</th>
+
+                <th>Check Out Status</th>
+
                 <th>Category</th>
                 <th>Action</th>
             </tr>
@@ -21,14 +77,15 @@
             {
                 <tr>
                     <td>
-                    <!-- Name Column -->
+
+                        <!-- Name Column -->
                         <span>@($"{item.Make} {item.Model}") </span>
-                    
-                     </td>
+                    </td>
 
                     <!-- Check Out Column -->
                     <td>
-                        @if (item.CheckedIn.Value)
+                        @if (item.CheckedIn.HasValue && item.CheckedIn.Value)
+
                         {
                             <span class="badge bg-success">Available</span>
                         }
@@ -39,13 +96,23 @@
                     </td>
 
                     <!-- Category Column -->
-                    <td>@Model.GetCategoryName(item.Category.Value)</td>
 
+                    <td>
+                        @if (item.Category.HasValue)
+                        {
+                            @Model.GetCategoryName(item.Category.Value)
+                        }
+                        else
+                        {
+                            <span class="text-muted">Unknown Category</span>
+                        }
+                    </td>
 
                     <!-- Action Column -->
                     <td>
-                        @if (item.CheckedIn.Value)
+                        @if (item.CheckedIn.HasValue && item.CheckedIn.Value)
                         {
+
                             <!-- Check Out Button -->
                             <form method="post" asp-page-handler="Checkout">
                                 <input type="hidden" name="itemId" value="@item.Id" />
