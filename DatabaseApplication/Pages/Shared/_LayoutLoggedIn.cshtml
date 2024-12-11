@@ -45,6 +45,7 @@
                         <i class="bi bi-box"></i> Products
                     </a>
                 </li>
+
                 @if (authorizationLevel == 1) // Render Finance link for admin users only
                 {
                     <li class="nav-item">
@@ -53,6 +54,7 @@
                         </a>
                     </li>
                 }
+
             </ul>
             <div class="sidebar-footer">
                 <a asp-page="/Registered/AddItem" class="btn btn-primary btn-block">Add Product</a>

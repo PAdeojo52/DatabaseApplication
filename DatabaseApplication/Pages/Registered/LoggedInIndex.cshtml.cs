@@ -18,11 +18,13 @@ namespace DatabaseApplication.Pages.Registered
 
         private readonly InventoryService _inventoryService;
         private readonly ItemService _itemService;
+
         private readonly Supabase.Client _supabaseClient;
 
 
 
         public LoggedInIndexModel(UserServiceSession userSessionService , ApplicationDbContext context, InventoryService inventoryService, ItemService itemService, Supabase.Client supabaseClient)
+
         {
             _context = context;
             // _context.Database.OpenConnection();
@@ -31,7 +33,9 @@ namespace DatabaseApplication.Pages.Registered
             //_context.Database.OpenConnectionAsync().Wait(); 
             _inventoryService = inventoryService;
             _itemService = itemService;
+
             _supabaseClient = supabaseClient;
+
         }
 
         public Dictionary<string, int>? ItemsByCategory { get; set; }
@@ -41,6 +45,8 @@ namespace DatabaseApplication.Pages.Registered
         public int TotalCategories { get; set; }
         public string? AlertMessage { get; set; } // Alert message property
         public List<Alerts> Alerts { get; set; } = new List<Alerts>();
+
+        public List<Category> Categories { get; set; }
 
         public List<Category> Categories { get; set; }
 

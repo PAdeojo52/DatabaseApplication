@@ -32,6 +32,7 @@ namespace DatabaseApplication.Pages.Registered
         {
             // Fetch all items
             var itemsResponse = await _supabaseClient.From<Item>().Get();
+
             var categoriesResponse = await _supabaseClient.From<Category>().Get();
 
             var items = itemsResponse.Models;
@@ -43,6 +44,7 @@ namespace DatabaseApplication.Pages.Registered
             var users = usersResponse.Models;
 
             InventoryValueByCategory = items
+
                .GroupBy(item => item.Category)
                .ToDictionary(
                    group =>

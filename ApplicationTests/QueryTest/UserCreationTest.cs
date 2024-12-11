@@ -84,9 +84,6 @@ namespace ApplicationTests.QueryTest
             Assert.All(updatedUsers, u => Assert.Equal(0, u.Autherization));
         }
 
-
-
-
         private string HashPassword(string password)
         {
             // Simulate password hashing (replace with actual hashing logic if required)
