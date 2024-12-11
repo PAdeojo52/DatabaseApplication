@@ -8,12 +8,14 @@ namespace DatabaseApplication.Pages.Registered
 {
     public class ProductsModel : PageModel
     {
+<
         private readonly ItemService _itemService;
         public readonly UserServiceSession _userServiceSession;
         private readonly CategoryService _categoryService;
 
         public ProductsModel(ItemService itemService, UserServiceSession userServiceSession, CategoryService categoryService)
         {
+
             _itemService = itemService;
             _userServiceSession = userServiceSession;
             _categoryService = categoryService;
@@ -22,6 +24,7 @@ namespace DatabaseApplication.Pages.Registered
         // List of Items to display on the page
         public List<Item> Items { get; set; }
         public Dictionary<int, string> Categories { get; set; }
+
 
         public async Task OnGetAsync(string? categoryFilter, string? availabilityFilter)
         {
@@ -50,6 +53,7 @@ namespace DatabaseApplication.Pages.Registered
         public string GetCategoryName(int categoryId)
         {
             return Categories.TryGetValue(categoryId, out var categoryName) ? categoryName : "Unknown";
+
         }
 
         public async Task<IActionResult> OnPostCheckoutAsync(int itemId)

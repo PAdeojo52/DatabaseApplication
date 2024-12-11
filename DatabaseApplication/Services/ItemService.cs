@@ -81,6 +81,7 @@ namespace DatabaseApplication.Services
         }
 
 
+
         public async Task<Item?> GetItemByIdAsync(int itemId)
         {
             var response = await _supabaseClient.From<Item>().Filter("id", Supabase.Postgrest.Constants.Operator.Equals, itemId).Single();
@@ -98,10 +99,12 @@ namespace DatabaseApplication.Services
 
             return response != null;
         }
+
         public async Task<bool> CheckInItemAsync(int itemId)
         {
             try
             {
+
                 // Use the latest Supabase syntax to update specific fields
                 var response = await _supabaseClient
                     .From<Item>()
@@ -111,6 +114,7 @@ namespace DatabaseApplication.Services
 
                 // Check if the update was successful
                 return response.Models != null && response.Models.Any();
+
             }
             catch (Exception ex)
             {

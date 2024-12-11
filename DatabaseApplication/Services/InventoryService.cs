@@ -56,6 +56,7 @@ namespace DatabaseApplication.Services
             return response.Models.Sum(item => item.Price); // Sum up all item prices
         }
 
+
         [Obsolete]
         public async Task<List<Alerts>> GetLowStockAlertsAsync()
         {
@@ -64,6 +65,7 @@ namespace DatabaseApplication.Services
 
             //Not Needed
         }
+
 
         // Get total stock in from all items
 

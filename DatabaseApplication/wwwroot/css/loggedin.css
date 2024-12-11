@@ -261,6 +261,7 @@
 canvas {
     display: block;
     margin: auto;
+
 }
 
 .charts-grid {
@@ -292,4 +293,5 @@ canvas {
     text-align: center;
     padding: 20px;
     color: #6a0dad;
+
 }
