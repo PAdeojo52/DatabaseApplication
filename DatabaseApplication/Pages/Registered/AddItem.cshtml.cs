@@ -47,6 +47,7 @@ namespace DatabaseApplication.Pages.Registered
         public string Model { get; set; }
 
         public List<Category> Categories { get; set; }
+        Random rn = new Random();
 
         public async Task OnGetAsync()
         {
@@ -68,6 +69,7 @@ namespace DatabaseApplication.Pages.Registered
 
             var newItem = new Item
             {
+                Id = rn.Next(1, int.MaxValue),
                 Name = this.Name,
                 Description = this.Description,
                 Category = this.CategoryId,
